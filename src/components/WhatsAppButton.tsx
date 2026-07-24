@@ -15,7 +15,7 @@ export function WhatsAppButton() {
   }, []);
 
   return (
-    <div className="fixed bottom-5 right-5 z-50 flex items-center gap-3">
+    <div className="fixed bottom-5 right-5 z-10 flex items-center gap-3">
       {showLabel && (
         <div className="hidden sm:flex items-center gap-2 glass px-4 py-2.5 rounded-full animate-fade-in">
           <span className="text-sm text-cream-100">Order on WhatsApp</span>
@@ -28,8 +28,11 @@ export function WhatsAppButton() {
           </button>
         </div>
       )}
+
       <button
-        onClick={() => openWhatsApp('Hello Design Arena Cookies! I would like to place an order.')}
+        onClick={() =>
+          openWhatsApp('Hello Design Arena Cookies! I would like to place an order.')
+        }
         className="relative flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-full bg-[#25D366] text-white shadow-2xl shadow-[#25D366]/30 hover:scale-110 active:scale-95 transition-all duration-300"
         aria-label="Order on WhatsApp"
       >

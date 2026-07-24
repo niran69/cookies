@@ -97,12 +97,12 @@ export function Navbar() {
 {/* Mobile menu */}
 {open && (
   <div
-    className="lg:hidden fixed inset-0 z-40 bg-ink-950/95 backdrop-blur-xl pt-24 px-6"
-    onClick={() => setOpen(false)}   // ✅ click outside close
+    className="lg:hidden fixed inset-0 z-[100] bg-ink-950 pt-24 px-6"
+    onClick={() => setOpen(false)}
   >
     <div
       className="flex flex-col gap-3"
-      onClick={(e) => e.stopPropagation()} // ✅ prevent inside click close
+      onClick={(e) => e.stopPropagation()}
     >
       {links.map((l) => (
         <Link
