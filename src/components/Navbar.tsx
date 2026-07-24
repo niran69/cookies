@@ -104,44 +104,49 @@ export function Navbar() {
         </nav>
       </header>
 
-      {/* ✅ FULLSCREEN MOBILE OVERLAY */}
       {open && (
-        <div
-          className="lg:hidden fixed inset-0 z-[99999] bg-black"
+  <div className="lg:hidden fixed inset-0 z-[99999] bg-black">
+    
+    {/* Background click area */}
+    <div
+      className="absolute inset-0"
+      onClick={() => setOpen(false)}
+    />
+
+    {/* Menu content */}
+    <div className="relative flex flex-col gap-5 pt-28 px-6">
+      <button
+        onClick={() => setOpen(false)}
+        className="absolute top-6 right-6 text-cream-200"
+      >
+        <X size={28} />
+      </button>
+
+      {links.map((l) => (
+        <Link
+          key={l.to}
+          to={l.to}
           onClick={() => setOpen(false)}
+          className={`px-4 py-3 rounded-xl text-lg font-medium ${
+            location.pathname === l.to
+              ? 'text-gold-300 bg-gold-400/10'
+              : 'text-cream-200'
+          }`}
         >
-          <div
-            className="flex flex-col gap-5 pt-28 px-6"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Close Button */}
-            <button
-              onClick={() => setOpen(false)}
-              className="absolute top-6 right-6 text-cream-200"
-            >
-              <X size={28} />
-            </button>
+          {l.label}
+        </Link>
+      ))}
 
-            {links.map((l) => (
-              <Link
-                key={l.to}
-                to={l.to}
-                className={`px-4 py-3 rounded-xl text-lg font-medium ${
-                  location.pathname === l.to
-                    ? 'text-gold-300 bg-gold-400/10'
-                    : 'text-cream-200'
-                }`}
-              >
-                {l.label}
-              </Link>
-            ))}
-
-            <Link to="/booking" className="btn-gold mt-4 w-full">
-              <ShoppingBag size={18} /> Cart ({count})
-            </Link>
-          </div>
-        </div>
-      )}
+      <Link
+        to="/booking"
+        onClick={() => setOpen(false)}
+        className="btn-gold mt-4 w-full"
+      >
+        <ShoppingBag size={18} /> Cart ({count})
+      </Link>
+    </div>
+  </div>
+)}
     </>
   );
 }
