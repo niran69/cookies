@@ -15,9 +15,10 @@ export type OrderDetails = {
 
 export function formatWhatsAppOrder(items: CartItem[], details: OrderDetails): string {
   const lines: string[] = [];
-  lines.push('*Design Arena Cookies — New Order*');
+
+  lines.push('*🍪 Design Arena Cookies — New Order*');
   lines.push('');
-  lines.push('*Customer Details*');
+  lines.push('*👤 Customer Details*');
   lines.push(`Name: ${details.customerName}`);
   lines.push(`Phone: ${details.phone}`);
   if (details.email) lines.push(`Email: ${details.email}`);
@@ -25,27 +26,34 @@ export function formatWhatsAppOrder(items: CartItem[], details: OrderDetails): s
   lines.push(`Delivery Date: ${details.deliveryDate}`);
   lines.push(`Delivery Time: ${details.deliveryTime}`);
   lines.push('');
-  lines.push('*Order Items*');
+
+  lines.push('*🛍 Order Items*');
   items.forEach((item, idx) => {
     lines.push(
-      `${idx + 1}. ${item.product.name} x${item.quantity} — $${(item.product.price * item.quantity).toFixed(2)}`,
+      `${idx + 1}. ${item.product.name} x${item.quantity} — ₹${(
+        item.product.price * item.quantity
+      ).toFixed(2)}`
     );
   });
+
   lines.push('');
-  lines.push(`Subtotal: $${(details.total - details.deliveryFee).toFixed(2)}`);
-  lines.push(`Delivery Fee: $${details.deliveryFee.toFixed(2)}`);
-  lines.push(`*Total: $${details.total.toFixed(2)}*`);
+  lines.push(`Subtotal: ₹${(details.total - details.deliveryFee).toFixed(2)}`);
+  lines.push(`Delivery Fee: ₹${details.deliveryFee.toFixed(2)}`);
+  lines.push(`*✅ Total: ₹${details.total.toFixed(2)}*`);
+
   if (details.specialInstructions) {
     lines.push('');
     lines.push(`Special Instructions: ${details.specialInstructions}`);
   }
+
   lines.push('');
-  lines.push('Sent via designarenacookies.com');
+  lines.push('📩 Sent via designarenacookies.com');
+
   return lines.join('\n');
 }
 
 export function openWhatsApp(message: string) {
-  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+  const url = `https://wa.me/919347244479?text=${encodeURIComponent(message)}`;
   window.open(url, '_blank', 'noopener,noreferrer');
 }
 
