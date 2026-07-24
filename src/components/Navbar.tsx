@@ -82,32 +82,30 @@ export function Navbar() {
           </button>
         </div>
       </nav>
+{/* Mobile menu */}
+{open && (
+  <div className="lg:hidden fixed inset-0 z-40 bg-ink-950/95 backdrop-blur-xl pt-24 px-6">
+    <div className="flex flex-col gap-3">
+      {links.map((l) => (
+        <Link
+          key={l.to}
+          to={l.to}
+          className={`px-4 py-3 rounded-xl text-base font-medium transition-all ${
+            location.pathname === l.to
+              ? 'text-gold-300 bg-gold-400/10'
+              : 'text-cream-200/80 hover:bg-white/5'
+          }`}
+        >
+          {l.label}
+        </Link>
+      ))}
 
-      {/* Mobile menu */}
-      <div
-        className={`lg:hidden overflow-hidden transition-all duration-400 ${
-          open ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-        }`}
-      >
-        <div className="section-pad pt-4 pb-6 flex flex-col gap-1">
-          {links.map((l) => (
-            <Link
-              key={l.to}
-              to={l.to}
-              className={`px-4 py-3 rounded-xl text-base font-medium transition-all ${
-                location.pathname === l.to
-                  ? 'text-gold-300 bg-gold-400/10'
-                  : 'text-cream-200/80 hover:bg-white/5'
-              }`}
-            >
-              {l.label}
-            </Link>
-          ))}
-          <Link to="/booking" className="btn-gold mt-3 w-full">
-            <ShoppingBag size={18} /> Cart ({count})
-          </Link>
-        </div>
-      </div>
+      <Link to="/booking" className="btn-gold mt-4 w-full">
+        <ShoppingBag size={18} /> Cart ({count})
+      </Link>
+    </div>
+  </div>
+)}
     </header>
   );
 }
