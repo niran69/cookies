@@ -1,14 +1,21 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Plus, Minus, Trash2, MessageCircle, ShoppingBag, Check } from 'lucide-react';
+import { MessageCircle, Check } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
-import { formatWhatsAppOrder, openWhatsApp, sanitizeText, validateEmail, validatePhone, type OrderDetails } from '@/lib/whatsapp';
-import { Reveal } from '@/components/Reveal';
+import {
+  formatWhatsAppOrder,
+  openWhatsApp,
+  sanitizeText,
+  validateEmail,
+  validatePhone,
+  type OrderDetails,
+} from '@/lib/whatsapp';
 
 const DELIVERY_FEE = 50;
 
 export function BookingPage() {
-  const { items, updateQty, removeItem, clear, subtotal, count } = useCart();
+  const { items, clear, subtotal } = useCart();
+
   const [form, setForm] = useState({
     name: '',
     phone: '',
@@ -24,7 +31,7 @@ export function BookingPage() {
 
   const total = subtotal + (items.length > 0 ? DELIVERY_FEE : 0);
 
-  const validate = (): boolean => {
+  const validate = () => {
     if (!sanitizeText(form.name)) return false;
     if (!sanitizeText(form.phone)) return false;
     if (!validatePhone(form.phone)) return false;
@@ -36,7 +43,7 @@ export function BookingPage() {
     return true;
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (!validate()) {
       alert('Please fill all required fields correctly.');
       return;
@@ -66,81 +73,68 @@ export function BookingPage() {
 
   if (success) {
     return (
-      <div className="pt-32 min-h-screen flex items-center justify-center section-pad">
-        <Reveal>
-          <div className="glass-gold p-10 text-center max-w-lg">
-            <span className="flex h-16 w-16 mx-auto items-center justify-center rounded-full bg-[#25D366] text-white mb-6">
-              <Check size={32} />
-            </span>
-            <h2 className="font-serif text-3xl font-bold text-cream-50 mb-3">Order Sent!</h2>
-            <p className="text-cream-200/65 mb-6">
-              WhatsApp should now be open with your order details.
-              Just hit send to confirm your order.
-            </p>
-            <Link to="/" className="btn-gold">Back Home</Link>
-          </div>
-        </Reveal>
+      <div className="pt-32 min-h-screen flex items-center justify-center px-4">
+        <div className="bg-black/60 border border-gold-400/20 p-8 rounded-2xl text-center max-w-md w-full">
+          <Check size={40} className="mx-auto text-green-400 mb-4" />
+          <h2 className="text-2xl font-bold text-white mb-3">Order Sent!</h2>
+          <p className="text-gray-300 mb-6">
+            WhatsApp should now be open with your order details.
+          </p>
+          <Link to="/" className="bg-gold-500 px-6 py-3 rounded-full text-black font-semibold">
+            Back Home
+          </Link>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="pt-24 min-h-screen section-pad py-10">
-      <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-8">
+    <div className="pt-24 min-h-screen px-4 pb-20">
+
+      <div className="max-w-6xl mx-auto grid gap-8 lg:grid-cols-2">
 
         {/* Delivery Form */}
-        <div className="glass p-6 space-y-4">
-          <h3 className="font-serif text-xl font-semibold text-cream-100">Delivery Details</h3>
+        <div className="bg-black/40 border border-gold-400/20 p-6 rounded-2xl space-y-4">
+          <h3 className="text-xl font-semibold text-white">Delivery Details</h3>
 
-          <input
-            type="text"
-            placeholder="Full Name"
+          <input type="text" placeholder="Full Name"
             className={inputCls}
             value={form.name}
             onChange={(e) => setForm({ ...form, name: e.target.value })}
           />
 
-          <input
-            type="tel"
-            placeholder="Phone Number"
+          <input type="tel" placeholder="Phone Number"
             className={inputCls}
             value={form.phone}
             onChange={(e) => setForm({ ...form, phone: e.target.value })}
           />
 
-          <input
-            type="email"
-            placeholder="Email (optional)"
+          <input type="email" placeholder="Email (optional)"
             className={inputCls}
             value={form.email}
             onChange={(e) => setForm({ ...form, email: e.target.value })}
           />
 
-          <input
-            type="text"
-            placeholder="Delivery Address"
+          <input type="text" placeholder="Delivery Address"
             className={inputCls}
             value={form.address}
             onChange={(e) => setForm({ ...form, address: e.target.value })}
           />
 
-          <input
-            type="date"
+          <input type="date"
             className={inputCls}
             value={form.deliveryDate}
             onChange={(e) => setForm({ ...form, deliveryDate: e.target.value })}
           />
 
-          <input
-            type="time"
+          <input type="time"
             className={inputCls}
             value={form.deliveryTime}
             onChange={(e) => setForm({ ...form, deliveryTime: e.target.value })}
           />
 
-          <textarea
+          <textarea rows={3}
             placeholder="Special Instructions"
-            rows={3}
             className={inputCls}
             value={form.instructions}
             onChange={(e) => setForm({ ...form, instructions: e.target.value })}
@@ -148,17 +142,17 @@ export function BookingPage() {
         </div>
 
         {/* Order Summary */}
-        <div className="glass-gold p-6 sticky top-24">
-          <h3 className="font-serif text-xl font-semibold text-cream-100 mb-4">Order Summary</h3>
+        <div className="bg-[#1a120a] border border-gold-400/20 p-6 rounded-2xl">
+          <h3 className="text-xl font-semibold text-white mb-4">Order Summary</h3>
 
           {items.map((item) => (
-            <div key={item.product.id} className="flex justify-between text-sm mb-2">
+            <div key={item.product.id} className="flex justify-between text-sm text-gray-300 mb-2">
               <span>{item.product.name} x{item.quantity}</span>
               <span>₹ {(item.product.price * item.quantity).toFixed(2)}</span>
             </div>
           ))}
 
-          <div className="border-t pt-4 mt-4 space-y-2">
+          <div className="border-t border-gold-400/20 pt-4 mt-4 space-y-2 text-gray-300">
             <div className="flex justify-between">
               <span>Subtotal</span>
               <span>₹ {subtotal.toFixed(2)}</span>
@@ -167,7 +161,7 @@ export function BookingPage() {
               <span>Delivery Fee</span>
               <span>₹ {DELIVERY_FEE.toFixed(2)}</span>
             </div>
-            <div className="flex justify-between font-bold text-gold-300">
+            <div className="flex justify-between font-bold text-gold-400 text-lg">
               <span>Total</span>
               <span>₹ {total.toFixed(2)}</span>
             </div>
@@ -176,7 +170,7 @@ export function BookingPage() {
           <button
             onClick={handleSubmit}
             disabled={submitting}
-            className="w-full mt-6 bg-[#25D366] text-white py-4 rounded-full font-semibold"
+            className="w-full mt-6 bg-green-500 hover:bg-green-600 transition py-4 rounded-full font-semibold text-white"
           >
             {submitting ? 'Sending...' : 'Confirm Order via WhatsApp'}
           </button>
@@ -188,4 +182,4 @@ export function BookingPage() {
 }
 
 const inputCls =
-  'w-full px-4 py-3 rounded-xl bg-black/40 text-white border border-gold-400/20 focus:outline-none';
+  'w-full px-4 py-3 rounded-xl bg-black/50 border border-gold-400/20 text-white focus:outline-none';
