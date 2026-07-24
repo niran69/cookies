@@ -5,7 +5,7 @@ import { AuthProvider } from '@/context/AuthContext';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { WhatsAppButton } from '@/components/WhatsAppButton';
-import { CookieConsent } from '@/components/CookieConsent';
+// import { CookieConsent } from '@/components/CookieConsent';
 import { HomePage } from '@/pages/HomePage';
 import { MenuPage } from '@/pages/MenuPage';
 import { BookingPage } from '@/pages/BookingPage';
@@ -40,7 +40,7 @@ function App() {
           </Routes>
           <Footer />
           <WhatsAppButton />
-          <CookieConsent />
+          {/* <CookieConsent /> */}
         </BrowserRouter>
       </CartProvider>
     </AuthProvider>

@@ -96,8 +96,14 @@ export function Navbar() {
       </nav>
 {/* Mobile menu */}
 {open && (
-  <div className="lg:hidden fixed inset-0 z-40 bg-ink-950/95 backdrop-blur-xl pt-24 px-6">
-    <div className="flex flex-col gap-3">
+  <div
+    className="lg:hidden fixed inset-0 z-40 bg-ink-950/95 backdrop-blur-xl pt-24 px-6"
+    onClick={() => setOpen(false)}   // ✅ click outside close
+  >
+    <div
+      className="flex flex-col gap-3"
+      onClick={(e) => e.stopPropagation()} // ✅ prevent inside click close
+    >
       {links.map((l) => (
         <Link
           key={l.to}
