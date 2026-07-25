@@ -18,25 +18,42 @@ export function MobileCartDrawer({ open, onClose }: { open: boolean; onClose: ()
         </div>
 
         {items.map((item) => (
-          <div key={item.product.id} className="mb-4 border-b border-gold-400/20 pb-4">
-            <div className="flex justify-between text-sm text-white mb-2">
-              <span>{item.product.name}</span>
-              <span>₹ {(item.product.price * item.quantity).toFixed(2)}</span>
+          <div key={item.product.id} className="mb-6 border-b border-gold-400/20 pb-4">
+
+            {/* ✅ IMAGE + NAME */}
+            <div className="flex items-center gap-3 mb-3">
+              <img
+                src={item.product.image_url}
+                alt={item.product.name}
+                className="h-12 w-12 rounded-lg object-cover"
+              />
+
+              <div className="flex-1">
+                <p className="text-white text-sm font-medium">
+                  {item.product.name}
+                </p>
+                <p className="text-gold-400 text-sm">
+                  ₹ {item.product.price.toFixed(2)}
+                </p>
+              </div>
             </div>
 
+            {/* ✅ QUANTITY CONTROLS */}
             <div className="flex items-center gap-3">
               <button
                 onClick={() => updateQty(item.product.id, item.quantity - 1)}
-                className="border border-gold-400/40 rounded-full h-7 w-7 flex items-center justify-center"
+                className="h-7 w-7 flex items-center justify-center rounded-full border border-gold-400/40 text-gold-300"
               >
                 <Minus size={14} />
               </button>
 
-              <span>{item.quantity}</span>
+              <span className="text-white">
+                {item.quantity}
+              </span>
 
               <button
                 onClick={() => updateQty(item.product.id, item.quantity + 1)}
-                className="border border-gold-400/40 rounded-full h-7 w-7 flex items-center justify-center"
+                className="h-7 w-7 flex items-center justify-center rounded-full border border-gold-400/40 text-gold-300"
               >
                 <Plus size={14} />
               </button>
@@ -48,6 +65,7 @@ export function MobileCartDrawer({ open, onClose }: { open: boolean; onClose: ()
                 <Trash2 size={16} />
               </button>
             </div>
+
           </div>
         ))}
 
