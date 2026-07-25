@@ -44,7 +44,6 @@ export function BookingPage() {
     return true;
   };
 
-  // ✅ Auto Get Location
   const getCurrentLocation = () => {
     if (!navigator.geolocation) {
       alert('Geolocation not supported');
@@ -121,7 +120,7 @@ export function BookingPage() {
   }
 
   return (
-    <div className="pt-24 min-h-screen section-pad py-10">
+    <div className="pt-24 min-h-screen section-pad py-10 pb-32 lg:pb-10">
       <div className="grid lg:grid-cols-5 gap-8 max-w-6xl mx-auto">
 
         {/* LEFT SIDE */}
@@ -220,7 +219,6 @@ export function BookingPage() {
               onChange={(e) => setForm({ ...form, address: e.target.value })}
             />
 
-            {/* Maps Link Field */}
             <input
               type="text"
               placeholder="Google Maps Location Link (optional)"
@@ -229,11 +227,10 @@ export function BookingPage() {
               onChange={(e) => setForm({ ...form, mapsLink: e.target.value })}
             />
 
-            {/* ✅ Auto Location Button */}
             <button
               type="button"
               onClick={getCurrentLocation}
-              className="flex items-center gap-2 text-sm text-gold-400 hover:text-gold-300 transition"
+              className="inline-flex items-center gap-2 text-sm text-gold-400 hover:text-gold-300 transition"
             >
               <MapPin size={16} />
               Use My Current Location
