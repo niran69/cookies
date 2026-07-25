@@ -1,43 +1,34 @@
-import { useEffect, useState } from 'react';
-import { MessageCircle, X } from 'lucide-react';
+import { useState } from 'react';
+import { MessageCircle, ChevronRight, ChevronLeft } from 'lucide-react';
 import { openWhatsApp } from '@/lib/whatsapp';
 
 export function WhatsAppButton() {
-  const [showLabel, setShowLabel] = useState(false);
-
-  useEffect(() => {
-    const t = setTimeout(() => setShowLabel(true), 2500);
-    const t2 = setTimeout(() => setShowLabel(false), 8000);
-    return () => {
-      clearTimeout(t);
-      clearTimeout(t2);
-    };
-  }, []);
+  const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <div className="fixed bottom-5 right-5 z-10 flex items-center gap-3">
-      {showLabel && (
-        <div className="hidden sm:flex items-center gap-2 glass px-4 py-2.5 rounded-full animate-fade-in">
-          <span className="text-sm text-cream-100">Order on WhatsApp</span>
-          <button
-            onClick={() => setShowLabel(false)}
-            className="text-cream-200/50 hover:text-cream-100"
-            aria-label="Dismiss"
-          >
-            <X size={14} />
-          </button>
-        </div>
-      )}
+    <div
+      className={`fixed bottom-6 right-0 z-50 flex items-center transition-all duration-300 ${
+        collapsed ? 'translate-x-16' : 'translate-x-0'
+      }`}
+    >
+      {/* Arrow Toggle */}
+      <button
+        onClick={() => setCollapsed(!collapsed)}
+        className="bg-gold-500 text-black h-10 w-10 flex items-center justify-center rounded-l-full shadow-lg"
+      >
+        {collapsed ? <ChevronLeft size={18} /> : <ChevronRight size={18} />}
+      </button>
 
+      {/* WhatsApp Button */}
       <button
         onClick={() =>
-          openWhatsApp('Hello Design Arena Cookies! I would like to place an order.')
+          openWhatsApp(
+            'Hello Design Arena Cookies! I would like to place an order.'
+          )
         }
-        className="relative flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-full bg-[#25D366] text-white shadow-2xl shadow-[#25D366]/30 hover:scale-110 active:scale-95 transition-all duration-300"
-        aria-label="Order on WhatsApp"
+        className="h-14 w-14 flex items-center justify-center bg-[#25D366] text-white rounded-full shadow-xl hover:scale-110 transition-all"
       >
-        <span className="absolute inset-0 rounded-full bg-[#25D366] animate-ping opacity-20" />
-        <MessageCircle size={28} fill="currentColor" className="relative" />
+        <MessageCircle size={26} />
       </button>
     </div>
   );
