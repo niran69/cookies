@@ -126,67 +126,82 @@ export function BookingPage() {
         {/* LEFT SIDE */}
         <div className="lg:col-span-3 space-y-6">
 
-          {/* CART ITEMS */}
+          {/* ✅ CART ITEMS (Laptop Only) */}
           <div className="hidden lg:block glass p-6 rounded-2xl">
             <h3 className="font-serif text-lg font-semibold text-cream-100 mb-6">
               Your Cookies ({count})
             </h3>
 
-            {items.map((item) => (
-              <div
-                key={item.product.id}
-                className="flex items-center justify-between bg-black/40 border border-gold-400/20 rounded-xl p-4 mb-4"
-              >
-                <div className="flex items-center gap-4">
-                  <img
-                    src={item.product.image_url}
-                    alt={item.product.name}
-                    className="h-14 w-14 rounded-lg object-cover"
-                  />
-                  <div>
-                    <h4 className="text-cream-100 text-sm font-medium">
-                      {item.product.name}
-                    </h4>
-                    <p className="text-gold-400 text-sm">
-                      ₹ {item.product.price.toFixed(2)}
-                    </p>
-                  </div>
-                </div>
+            {items.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-10 text-center">
+                <p className="text-cream-200/60 mb-6">
+                  Your cart is empty
+                </p>
 
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-3 bg-black/60 border border-gold-400/30 rounded-full px-3 py-1.5">
-                    <button
-                      onClick={() =>
-                        updateQty(item.product.id, item.quantity - 1)
-                      }
-                      className="h-7 w-7 flex items-center justify-center rounded-full border border-gold-400/40 text-gold-300 hover:bg-gold-400/10 transition"
-                    >
-                      <Minus size={14} />
-                    </button>
-
-                    <span className="text-gold-200 font-semibold text-sm w-5 text-center">
-                      {item.quantity}
-                    </span>
-
-                    <button
-                      onClick={() =>
-                        updateQty(item.product.id, item.quantity + 1)
-                      }
-                      className="h-7 w-7 flex items-center justify-center rounded-full border border-gold-400/40 text-gold-300 hover:bg-gold-400/10 transition"
-                    >
-                      <Plus size={14} />
-                    </button>
-                  </div>
-
-                  <button
-                    onClick={() => removeItem(item.product.id)}
-                    className="text-red-400 hover:text-red-300 transition"
-                  >
-                    <Trash2 size={16} />
-                  </button>
-                </div>
+                <Link
+                  to="/menu"
+                  className="bg-gradient-to-r from-gold-400 to-gold-600 text-black px-6 py-3 rounded-full font-semibold hover:scale-105 transition"
+                >
+                  Add Cookies
+                </Link>
               </div>
-            ))}
+            ) : (
+              items.map((item) => (
+                <div
+                  key={item.product.id}
+                  className="flex items-center justify-between bg-black/40 border border-gold-400/20 rounded-xl p-4 mb-4"
+                >
+                  <div className="flex items-center gap-4">
+                    <img
+                      src={item.product.image_url}
+                      alt={item.product.name}
+                      className="h-14 w-14 rounded-lg object-cover"
+                    />
+                    <div>
+                      <h4 className="text-cream-100 text-sm font-medium">
+                        {item.product.name}
+                      </h4>
+                      <p className="text-gold-400 text-sm">
+                        ₹ {item.product.price.toFixed(2)}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-3 bg-black/60 border border-gold-400/30 rounded-full px-3 py-1.5">
+                      <button
+                        onClick={() =>
+                          updateQty(item.product.id, item.quantity - 1)
+                        }
+                        className="h-7 w-7 flex items-center justify-center rounded-full border border-gold-400/40 text-gold-300 hover:bg-gold-400/10 transition"
+                      >
+                        <Minus size={14} />
+                      </button>
+
+                      <span className="text-gold-200 font-semibold text-sm w-5 text-center">
+                        {item.quantity}
+                      </span>
+
+                      <button
+                        onClick={() =>
+                          updateQty(item.product.id, item.quantity + 1)
+                        }
+                        className="h-7 w-7 flex items-center justify-center rounded-full border border-gold-400/40 text-gold-300 hover:bg-gold-400/10 transition"
+                      >
+                        <Plus size={14} />
+                      </button>
+                    </div>
+
+                    <button
+                      onClick={() => removeItem(item.product.id)}
+                      className="text-red-400 hover:text-red-300 transition"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
 
           {/* DELIVERY FORM */}
@@ -258,15 +273,6 @@ export function BookingPage() {
             <h3 className="font-serif text-lg font-semibold text-white mb-4">
               Order Summary
             </h3>
-
-            <div className="space-y-2 mb-4">
-              {items.map((item) => (
-                <div key={item.product.id} className="flex justify-between text-sm">
-                  <span>{item.product.name} x{item.quantity}</span>
-                  <span>₹ {(item.product.price * item.quantity).toFixed(2)}</span>
-                </div>
-              ))}
-            </div>
 
             <div className="border-t border-gold-400/20 pt-4 space-y-2">
               <div className="flex justify-between">
