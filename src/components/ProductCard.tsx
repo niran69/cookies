@@ -29,6 +29,12 @@ export function ProductCard({ product }: { product: Product }) {
             <Star size={11} fill="currentColor" /> Featured
           </span>
         )}
+
+        {!product.in_stock && (
+          <span className="absolute top-3 right-3 px-3 py-1 rounded-full bg-red-500/90 text-white text-xs font-semibold">
+            Out of Stock
+          </span>
+        )}
       </div>
 
       <div className="p-5 flex flex-col flex-1">
@@ -36,11 +42,11 @@ export function ProductCard({ product }: { product: Product }) {
           {product.category}
         </span>
 
-        <h3 className="font-serif text-lg font-semibold text-cream-100 mb-1.5">
+        <h3 className="font-serif text-lg font-semibold text-cream-100 mb-1.5 leading-snug">
           {product.name}
         </h3>
 
-        <p className="text-sm text-cream-200/55 mb-4 flex-1">
+        <p className="text-sm text-cream-200/55 leading-relaxed mb-4 flex-1 line-clamp-2">
           {product.description}
         </p>
 
@@ -50,50 +56,53 @@ export function ProductCard({ product }: { product: Product }) {
           </span>
 
           {currentQty > 0 && (
-            <span className="text-sm text-gold-400 font-semibold">
+            <span className="text-xs text-gold-400 font-semibold animate-pulse">
               In Cart: {currentQty}
             </span>
           )}
         </div>
 
-        {/* ✅ CART CONTROLS */}
+        {/* ✅ PREMIUM CART CONTROLS */}
         {currentQty > 0 ? (
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() =>
-                updateQty(product.id, currentQty - 1)
-              }
-              className="flex h-9 w-9 items-center justify-center border border-gold-400/30 rounded-full"
-            >
-              <Minus size={15} />
-            </button>
+          <div className="flex items-center justify-between bg-black/40 border border-gold-400/20 rounded-full px-4 py-2">
 
-            <span className="w-8 text-center">
-              {currentQty}
-            </span>
+            <div className="flex items-center gap-3">
 
-            <button
-              onClick={() =>
-                updateQty(product.id, currentQty + 1)
-              }
-              className="flex h-9 w-9 items-center justify-center border border-gold-400/30 rounded-full"
-            >
-              <Plus size={15} />
-            </button>
+              <button
+                onClick={() => updateQty(product.id, currentQty - 1)}
+                className="h-8 w-8 flex items-center justify-center rounded-full border border-gold-400/40 text-gold-300 hover:bg-gold-400/10 transition"
+              >
+                <Minus size={14} />
+              </button>
+
+              <span className="text-gold-200 font-semibold text-sm w-6 text-center">
+                {currentQty}
+              </span>
+
+              <button
+                onClick={() => updateQty(product.id, currentQty + 1)}
+                className="h-8 w-8 flex items-center justify-center rounded-full border border-gold-400/40 text-gold-300 hover:bg-gold-400/10 transition"
+              >
+                <Plus size={14} />
+              </button>
+
+            </div>
 
             <button
               onClick={() => removeItem(product.id)}
-              className="ml-2 text-red-400"
+              className="text-red-400 hover:text-red-300 transition"
             >
               <Trash2 size={16} />
             </button>
+
           </div>
         ) : (
           <button
             onClick={() => addItem(product, 1)}
-            className="btn-gold !py-2.5 text-sm"
+            className="flex-1 bg-gradient-to-r from-gold-400 to-gold-600 text-black py-2.5 rounded-full text-sm font-semibold hover:scale-[1.02] transition-all duration-300"
           >
-            <ShoppingBag size={16} /> Add
+            <ShoppingBag size={16} className="inline mr-2" />
+            Add
           </button>
         )}
       </div>
