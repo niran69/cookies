@@ -127,7 +127,7 @@ export function BookingPage() {
         <div className="lg:col-span-3 space-y-6">
 
           {/* CART ITEMS */}
-          <div className="glass p-6 rounded-2xl">
+          <div className="hidden lg:block glass p-6 rounded-2xl">
             <h3 className="font-serif text-lg font-semibold text-cream-100 mb-6">
               Your Cookies ({count})
             </h3>
