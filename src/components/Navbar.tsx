@@ -9,6 +9,7 @@ const links = [
   { to: '/booking', label: 'Order Now' },
   { to: '/about', label: 'About' },
   { to: '/contact', label: 'Contact' },
+  { to: '/license', label: 'License' },
 ];
 
 export function Navbar() {
