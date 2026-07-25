@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Plus, Minus, Trash2, Check } from 'lucide-react';
+import { Plus, Minus, Trash2, Check, MapPin } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import {
   formatWhatsAppOrder,
@@ -24,6 +24,7 @@ export function BookingPage() {
     deliveryDate: '',
     deliveryTime: '',
     instructions: '',
+    mapsLink: '',
   });
 
   const [submitting, setSubmitting] = useState(false);
@@ -41,6 +42,31 @@ export function BookingPage() {
     if (!form.deliveryTime) return false;
     if (!items.length) return false;
     return true;
+  };
+
+  // ✅ Auto Get Location
+  const getCurrentLocation = () => {
+    if (!navigator.geolocation) {
+      alert('Geolocation not supported');
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        const mapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
+
+        setForm((prev) => ({
+          ...prev,
+          mapsLink: mapsUrl,
+        }));
+
+        alert('✅ Location added successfully');
+      },
+      () => {
+        alert('❌ Unable to retrieve location');
+      }
+    );
   };
 
   const handleSubmit = () => {
@@ -63,7 +89,14 @@ export function BookingPage() {
       total,
     };
 
-    const message = formatWhatsAppOrder(items, details);
+    let message = formatWhatsAppOrder(items, details);
+
+    if (form.mapsLink) {
+      message += `\n\n📍 Google Maps Location:\n${form.mapsLink}`;
+    } else {
+      message += `\n\n📍 Please share your Google Maps live location for accurate delivery.`;
+    }
+
     openWhatsApp(message);
 
     clear();
@@ -94,7 +127,7 @@ export function BookingPage() {
         {/* LEFT SIDE */}
         <div className="lg:col-span-3 space-y-6">
 
-          {/* CART ITEMS PREMIUM */}
+          {/* CART ITEMS */}
           <div className="glass p-6 rounded-2xl">
             <h3 className="font-serif text-lg font-semibold text-cream-100 mb-6">
               Your Cookies ({count})
@@ -111,7 +144,6 @@ export function BookingPage() {
                     alt={item.product.name}
                     className="h-14 w-14 rounded-lg object-cover"
                   />
-
                   <div>
                     <h4 className="text-cream-100 text-sm font-medium">
                       {item.product.name}
@@ -123,7 +155,6 @@ export function BookingPage() {
                 </div>
 
                 <div className="flex items-center gap-4">
-
                   <div className="flex items-center gap-3 bg-black/60 border border-gold-400/30 rounded-full px-3 py-1.5">
                     <button
                       onClick={() =>
@@ -154,7 +185,6 @@ export function BookingPage() {
                   >
                     <Trash2 size={16} />
                   </button>
-
                 </div>
               </div>
             ))}
@@ -184,11 +214,30 @@ export function BookingPage() {
 
             <input
               type="text"
-              placeholder="Address"
+              placeholder="Delivery Address"
               className={inputCls}
               value={form.address}
               onChange={(e) => setForm({ ...form, address: e.target.value })}
             />
+
+            {/* Maps Link Field */}
+            <input
+              type="text"
+              placeholder="Google Maps Location Link (optional)"
+              className={inputCls}
+              value={form.mapsLink}
+              onChange={(e) => setForm({ ...form, mapsLink: e.target.value })}
+            />
+
+            {/* ✅ Auto Location Button */}
+            <button
+              type="button"
+              onClick={getCurrentLocation}
+              className="flex items-center gap-2 text-sm text-gold-400 hover:text-gold-300 transition"
+            >
+              <MapPin size={16} />
+              Use My Current Location
+            </button>
 
             <input
               type="date"
