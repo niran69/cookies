@@ -101,12 +101,23 @@ export function MobileCartDrawer({ open, onClose }: { open: boolean; onClose: ()
               </div>
             ))}
 
-            <div className="mt-6 border-t border-gold-400/20 pt-4 text-white">
-              <div className="flex justify-between font-semibold">
-                <span>Subtotal</span>
-                <span>₹ {subtotal.toFixed(2)}</span>
-              </div>
-            </div>
+           <div className="mt-6 border-t border-gold-400/20 pt-4 text-white">
+  <div className="flex justify-between font-semibold mb-4">
+    <span>Subtotal</span>
+    <span>₹ {subtotal.toFixed(2)}</span>
+  </div>
+
+  {/* ✅ Order Now Button */}
+  <button
+    onClick={() => {
+      onClose();
+      navigate('/booking');
+    }}
+    className="w-full bg-gradient-to-r from-gold-400 to-gold-600 text-black py-3 rounded-full font-semibold hover:scale-105 transition"
+  >
+    Order Now
+  </button>
+</div>
           </>
         )}
 
