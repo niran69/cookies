@@ -1,14 +1,11 @@
-import { useState } from 'react';
-import { Plus, Minus, ShoppingBag, Star } from 'lucide-react';
+import { Plus, Minus, ShoppingBag, Star, Trash2 } from 'lucide-react';
 import type { Product } from '@/lib/supabase';
 import { useCart } from '@/context/CartContext';
 import { LazyImage } from '@/components/LazyImage';
 
 export function ProductCard({ product }: { product: Product }) {
-  const { addItem, items } = useCart();
-  const [qty, setQty] = useState(1);
+  const { addItem, updateQty, removeItem, items } = useCart();
 
-  // ✅ Find existing cart item
   const existingItem = items.find(
     (i) => i.product.id === product.id
   );
@@ -28,14 +25,8 @@ export function ProductCard({ product }: { product: Product }) {
         <div className="absolute inset-0 bg-gradient-to-t from-ink-950/80 via-transparent to-transparent" />
 
         {product.featured && (
-          <span className="absolute top-3 left-3 flex items-center gap-1 px-3 py-1 rounded-full bg-gold-400/90 text-ink-950 text-xs font-semibold backdrop-blur">
+          <span className="absolute top-3 left-3 flex items-center gap-1 px-3 py-1 rounded-full bg-gold-400/90 text-ink-950 text-xs font-semibold">
             <Star size={11} fill="currentColor" /> Featured
-          </span>
-        )}
-
-        {!product.in_stock && (
-          <span className="absolute top-3 right-3 px-3 py-1 rounded-full bg-red-500/90 text-white text-xs font-semibold">
-            Out of Stock
           </span>
         )}
       </div>
@@ -45,11 +36,11 @@ export function ProductCard({ product }: { product: Product }) {
           {product.category}
         </span>
 
-        <h3 className="font-serif text-lg font-semibold text-cream-100 mb-1.5 leading-snug">
+        <h3 className="font-serif text-lg font-semibold text-cream-100 mb-1.5">
           {product.name}
         </h3>
 
-        <p className="text-sm text-cream-200/55 leading-relaxed mb-4 flex-1 line-clamp-2">
+        <p className="text-sm text-cream-200/55 mb-4 flex-1">
           {product.description}
         </p>
 
@@ -58,7 +49,6 @@ export function ProductCard({ product }: { product: Product }) {
             ₹ {product.price.toFixed(2)}
           </span>
 
-          {/* ✅ Show current cart count if exists */}
           {currentQty > 0 && (
             <span className="text-sm text-gold-400 font-semibold">
               In Cart: {currentQty}
@@ -66,40 +56,46 @@ export function ProductCard({ product }: { product: Product }) {
           )}
         </div>
 
-        <div className="flex items-center gap-2.5">
-          <div className="flex items-center rounded-full border border-gold-400/20 overflow-hidden">
+        {/* ✅ CART CONTROLS */}
+        {currentQty > 0 ? (
+          <div className="flex items-center gap-2">
             <button
-              onClick={() => setQty((q) => Math.max(1, q - 1))}
-              className="flex h-9 w-9 items-center justify-center text-gold-200 hover:bg-gold-400/10 transition"
-              disabled={!product.in_stock}
+              onClick={() =>
+                updateQty(product.id, currentQty - 1)
+              }
+              className="flex h-9 w-9 items-center justify-center border border-gold-400/30 rounded-full"
             >
               <Minus size={15} />
             </button>
 
-            <span className="w-8 text-center text-sm font-semibold text-cream-100">
-              {qty}
+            <span className="w-8 text-center">
+              {currentQty}
             </span>
 
             <button
-              onClick={() => setQty((q) => q + 1)}
-              className="flex h-9 w-9 items-center justify-center text-gold-200 hover:bg-gold-400/10 transition"
-              disabled={!product.in_stock}
+              onClick={() =>
+                updateQty(product.id, currentQty + 1)
+              }
+              className="flex h-9 w-9 items-center justify-center border border-gold-400/30 rounded-full"
             >
               <Plus size={15} />
             </button>
-          </div>
 
+            <button
+              onClick={() => removeItem(product.id)}
+              className="ml-2 text-red-400"
+            >
+              <Trash2 size={16} />
+            </button>
+          </div>
+        ) : (
           <button
-            onClick={() => {
-              addItem(product, qty);
-              setQty(1);
-            }}
-            disabled={!product.in_stock}
-            className="flex-1 btn-gold !py-2.5 text-sm disabled:opacity-40"
+            onClick={() => addItem(product, 1)}
+            className="btn-gold !py-2.5 text-sm"
           >
             <ShoppingBag size={16} /> Add
           </button>
-        </div>
+        )}
       </div>
     </div>
   );
