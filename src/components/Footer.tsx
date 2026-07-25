@@ -27,12 +27,13 @@ export function Footer() {
         <div>
           <h4 className="text-gold-200 font-serif text-base font-semibold mb-4">Explore</h4>
           <ul className="space-y-2.5 text-sm">
-            <li><Link to="/" className="text-cream-200/60 hover:text-gold-200 transition">Home</Link></li>
-            <li><Link to="/menu" className="text-cream-200/60 hover:text-gold-200 transition">Cookies Menu</Link></li>
-            <li><Link to="/booking" className="text-cream-200/60 hover:text-gold-200 transition">Place an Order</Link></li>
-            <li><Link to="/about" className="text-cream-200/60 hover:text-gold-200 transition">About Us</Link></li>
-            <li><Link to="/contact" className="text-cream-200/60 hover:text-gold-200 transition">Contact</Link></li>
-          </ul>
+  <li><Link to="/" className="text-cream-200/60 hover:text-gold-200 transition">Home</Link></li>
+  <li><Link to="/menu" className="text-cream-200/60 hover:text-gold-200 transition">Cookies Menu</Link></li>
+  <li><Link to="/booking" className="text-cream-200/60 hover:text-gold-200 transition">Place an Order</Link></li>
+  <li><Link to="/about" className="text-cream-200/60 hover:text-gold-200 transition">About Us</Link></li>
+  <li><Link to="/contact" className="text-cream-200/60 hover:text-gold-200 transition">Contact</Link></li>
+  <li><Link to="/license" className="text-cream-200/60 hover:text-gold-200 transition">License</Link></li>
+</ul>
         </div>
 
         <div>
