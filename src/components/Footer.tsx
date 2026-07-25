@@ -56,9 +56,18 @@ export function Footer() {
       </div>
 
       <div className="border-t border-gold-400/10 py-6 section-pad flex flex-col sm:flex-row items-center justify-between gap-3">
-        <p className="text-cream-200/40 text-xs">© {new Date().getFullYear()} Design Arena Cookies. All rights reserved.</p>
-        <p className="text-cream-200/40 text-xs">Crafted with passion. Delivered with care.</p>
-      </div>
+
+  <p className="text-cream-200/40 text-xs">
+    © {new Date().getFullYear()} Design Arena Cookies. All rights reserved.
+  </p>
+
+  <div className="flex gap-4 text-xs text-cream-200/40">
+    <Link to="/privacy" className="hover:text-gold-200 transition">Privacy</Link>
+    <Link to="/terms" className="hover:text-gold-200 transition">Terms</Link>
+    <Link to="/legal" className="hover:text-gold-200 transition">Legal</Link>
+  </div>
+
+</div>
     </footer>
   );
 }
